@@ -210,10 +210,13 @@ namespace Xamarin.Forms.MSBuild.UnitTests
 					Console.WriteLine(e.Data);
 				}
 			};
+			var refpath = string.Join(";",
+				IOPath.Combine("..", "..", "Xamarin.Forms.Core.dll"),
+				IOPath.Combine("..", "..", "Xamarin.Forms.Xaml.dll"));
 
 			var psi = new ProcessStartInfo {
 				FileName = FindMSBuild (),
-				Arguments = $"/v:normal /nologo {projectFile} /t:{target} /bl {additionalArgs}",
+				Arguments = $"/v:normal /nologo {projectFile} /t:{target} -property:_ReferencedAssemblies=\\\"{refpath}\\\" /bl {additionalArgs}",
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 				UseShellExecute = false,
